@@ -1,0 +1,12 @@
+include: package:pedantic_mono/analysis_options.yaml
+
+linter:
+  rules:
+   flutter_style_todos: false
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    invalid_annotation_target: ignore
