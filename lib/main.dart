@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whiteboard_flutter/auth/model/user.dart';
+import 'package:whiteboard_flutter/auth/ui/login_page.dart';
 import 'package:whiteboard_flutter/home/ui/home_page.dart';
 
 final sharedPreferencesProvider =
@@ -14,7 +17,8 @@ Future<void> main() async {
   await Future.wait([
     Future(() async {
       sharedPreferences = await SharedPreferences.getInstance();
-    })
+    }),
+    dotenv.load(fileName: '.env'),
   ]);
 
   runApp(
@@ -40,20 +44,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('whiteboard'),
-      ),
-      body: Consumer(
-        builder: (context, watch, child) {
-          /* if (false) {
-            return const LoginPage();
-          } else {
-            return child!;
-          } */
-          return const HomePage();
-        },
-      ),
-    );
+    return Consumer(builder: (context, watch, child) {
+      final user = watch(userStateProvider);
+
+      debugPrint(user.email);
+
+      debugPrint(googleSignIn.currentUser.toString());
+
+      if (user.email.isNotEmpty) {
+        return const HomePage();
+      } else {
+        return const LoginPage();
+      }
+    });
   }
 }
