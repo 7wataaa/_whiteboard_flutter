@@ -28,6 +28,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^0.14.0+3
+  flutter_secure_storage: ^4.2.1
   freezed: ^0.14.2
   freezed_annotation: ^0.14.2
   google_sign_in: ^5.0.7

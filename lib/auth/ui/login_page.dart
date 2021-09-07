@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whiteboard_flutter/auth/model/user.dart';
+import 'package:whiteboard_flutter/auth/components/email_login_form_dialog.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -57,9 +58,33 @@ class LoginPage extends StatelessWidget {
                 width: 300,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: context.read(userStateProvider.notifier).signIn,
+                  onPressed:
+                      context.read(userStateProvider.notifier).signInAtGoogle,
                   child: const Text(
                     'Googleで続行',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40, top: 10),
+              child: SizedBox(
+                width: 300,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await showDialog<EmailLoginFormDialog>(
+                      context: context,
+                      builder: (context) => EmailLoginFormDialog(
+                        onSubmit: context
+                            .read(userStateProvider.notifier)
+                            .signInAtEmail,
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'メールアドレスで続行',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
                   ),
                 ),

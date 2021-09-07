@@ -24,7 +24,7 @@ final googleSignIn = GoogleSignIn(clientId: dotenv.env['CLIENT_ID']);
 class UserStateNotifier extends StateNotifier<User> {
   UserStateNotifier() : super(User(name: '', email: '', photoUrl: '', id: ''));
 
-  Future<void> signIn() async {
+  Future<void> signInAtGoogle() async {
     await googleSignIn.signIn();
 
     final currentUser = googleSignIn.currentUser;
@@ -41,6 +41,10 @@ class UserStateNotifier extends StateNotifier<User> {
       photoUrl: currentUser?.photoUrl ?? '',
       id: (await currentUser?.authentication)?.idToken ?? '',
     );
+  }
+
+  Future<void> signInAtEmail(String emailAddress, String password) async {
+    debugPrint('emailAddress: $emailAddress, password: $password');
   }
 
   Future<void> signOut() async {
